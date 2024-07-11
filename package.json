@@ -1,0 +1,53 @@
+{
+  "name": "@w3geo/vue-place-search",
+  "private": false,
+  "version": "1.0.0",
+  "type": "module",
+  "files": [
+    "dist",
+    "src/components/"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/w3geo/vue-place-search.git"
+  },
+  "keywords": [
+    "search",
+    "places",
+    "austria",
+    "vue3",
+    "vue"
+  ],
+  "main": "./dist/vue-place-search.umd.cjs",
+  "module": "./dist/vue-place-search.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/vue-place-search.js",
+      "require": "./dist/vue-place-search.umd.cjs"
+    },
+    "./dist/style.css": {
+      "import": "./dist/style.css",
+      "require": "./dist/style.css"
+    }
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview",
+    "prepublish": "npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.9",
+    "@vitejs/plugin-vue": "^5.0.5",
+    "typescript": "^5.2.2",
+    "vite": "^5.3.1",
+    "vite-plugin-dts": "^3.9.1",
+    "vue-tsc": "^2.0.21"
+  },
+  "peerDependencies": {
+    "@types/geojson": "^7946.0.14",
+    "ol": "*",
+    "vue": "^3.0.0"
+  }
+}
