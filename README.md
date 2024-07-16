@@ -13,6 +13,7 @@ Vue3 place search for Austria, using the [BEV Kataster](https://kataster.bev.gv.
   <PlaceSearch @result="showResult" />
 </template>
 <script setup>
+  import '@w3geo/vue-place-search/dist/style.css';
   import { PlaceSearch } from '@w3geo/vue-place-search';
 
   function showResult(result) {
@@ -22,6 +23,9 @@ Vue3 place search for Austria, using the [BEV Kataster](https://kataster.bev.gv.
 ```
 
 ### `usePlaceSearch` composable for OpenLayers
+
+Instead of the `@result` event, the `usePlaceSearch()` composable can be used to pass the search result location directly to the provided OpenLayers map instance, or to watch for new search results.
+
 ```html
 <script setup>
   import { usePlaceSearch } from '@w3geo/vue-place-search';
@@ -29,7 +33,12 @@ Vue3 place search for Austria, using the [BEV Kataster](https://kataster.bev.gv.
   import { useMap } from './composables/useMap.js';
 
   const map = useMap();
-  usePlaceSearch(map);
+  
+  const { result } = usePlaceSearch(map);
+
+  watch(result, (value) => {
+    console.log(value);
+  });
 </script>
 ```
 With this, the map view will automatically be centered on the result geometry.

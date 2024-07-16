@@ -1,7 +1,13 @@
 {
   "compilerOptions": {
     "allowJs": true,
-    "checkJs": true
+    "checkJs": true,
+    "baseUrl": ".",
+    "paths": {
+      "ol": ["./node_modules/ol", "./node_modules/ol/*"],
+    },
+    "declaration": true,
+    "declarationMap": true
   },
   "files": [],
   "references": [

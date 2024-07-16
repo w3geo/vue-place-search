@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "type": "module",
   "files": [
-    "dist",
-    "src/components/"
+    "dist/",
+    "src/"
   ],
   "repository": {
     "type": "git",
@@ -18,17 +18,14 @@
     "vue3",
     "vue"
   ],
-  "main": "./dist/vue-place-search.umd.cjs",
   "module": "./dist/vue-place-search.js",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/vue-place-search.js",
-      "require": "./dist/vue-place-search.umd.cjs"
+      "import": "./dist/vue-place-search.js"
     },
     "./dist/style.css": {
-      "import": "./dist/style.css",
-      "require": "./dist/style.css"
+      "import": "./dist/style.css"
     }
   },
   "scripts": {
@@ -48,6 +45,7 @@
   "peerDependencies": {
     "@types/geojson": "^7946.0.14",
     "ol": "*",
-    "vue": "^3.0.0"
+    "vue": "^3.0.0",
+    "vuetify": "^3.6.12"
   }
 }

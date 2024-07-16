@@ -24,6 +24,7 @@
 <script setup>
 import { ref, watch } from 'vue';
 import { usePlaceSearch } from '../composables/usePlaceSearch.js';
+import { VAutocomplete } from 'vuetify/components';
 
 const { result } = usePlaceSearch();
 const emit = defineEmits(['result']);

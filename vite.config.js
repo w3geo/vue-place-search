@@ -12,15 +12,11 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, 'src/index.js'),
       name: 'PlaceSearch',
-      fileName: 'vue-place-search'
+      fileName: 'vue-place-search',
+      formats: ['es'],
     },
     rollupOptions: {
-      external: ['vue'],
-      output: {
-        globals: {
-          vue: 'Vue'
-        }
-      }
+      external: ['ol', 'vue', 'vuetify'],
     }
   },
   resolve: {

@@ -5,11 +5,9 @@ const result = ref(null);
 const geojsonFormat = new GeoJSON();
 
 /**
- * @param {import('ol/Map').default} [map] OpenLayers map instance.
+ * @param {import('ol/Map.js').default} [map] OpenLayers map instance.
  * If provided, the map's view will be centered on the search result geometry.
- * @returns {{
- *  result: import('vue').Ref<import('geojson').Feature>,
- * }}
+ * @returns {{result: import('vue').Ref<import('geojson').Feature>}}
  */
 export function usePlaceSearch(map) {
   if (map) {
