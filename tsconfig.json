@@ -2,12 +2,9 @@
   "compilerOptions": {
     "allowJs": true,
     "checkJs": true,
-    "baseUrl": ".",
-    "paths": {
-      "ol": ["./node_modules/ol", "./node_modules/ol/*"],
-    },
     "declaration": true,
-    "declarationMap": true
+    "declarationMap": true,
+    "moduleResolution": "node",
   },
   "files": [],
   "references": [
