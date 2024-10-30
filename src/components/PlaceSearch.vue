@@ -52,11 +52,11 @@ import { usePlaceSearch } from "../composables/usePlaceSearch.js";
  */
 const objectTypes = {
   1: "Bundesland",
-  2: "Politische Gemeinde",
-  3: "Katasralgemeinde",
-  4: "Grundstueck",
+  2: "Gemeinde",
+  3: "Katastralgemeinde",
+  4: "Grundstück",
   5: "Grenzpunkt",
-  6: "Strasse",
+  6: "Straße",
   7: "Hausnummer",
   8: "Festpunkt",
   9: "Riedname",
