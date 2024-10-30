@@ -30,8 +30,10 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref, shallowRef, watch } from "vue";
 import { usePlaceSearch } from "../composables/usePlaceSearch.js";
+import leven from "leven";
+import { objectTypes, sortOrder } from "../constants.js";
 
 /**
  * @typedef {Object} placeProperties
@@ -45,29 +47,18 @@ import { usePlaceSearch } from "../composables/usePlaceSearch.js";
  * @property {placeProperties} properties
  * @property {Object} geometry
  * @property {string} id
+ * @property {number=} stringDistance levenshtein distance between name and search string
  */
 
-/**
- * @type {Object.<string, string>}
- */
-const objectTypes = {
-  1: "Bundesland",
-  2: "Gemeinde",
-  3: "Katastralgemeinde",
-  4: "Grundstück",
-  5: "Grenzpunkt",
-  6: "Straße",
-  7: "Hausnummer",
-  8: "Festpunkt",
-  9: "Riedname",
-  10: "Einlagezahl",
-};
+
+
 
 const { result } = usePlaceSearch();
 const emit = defineEmits(["result"]);
 
 const model = ref(null);
-const items = ref([]);
+const items = shallowRef([]);
+
 /** @type {import("vue").Ref<AbortController>} */
 const abortController = ref(null);
 const search = ref("");
@@ -89,7 +80,7 @@ const filter = (haystack, needle) => {
 };
 
 /**
- * @param {string} value
+ * @param {string} value input search string
  */
 const getPlaces = async (value) => {
   if (value.length > 3) {
@@ -104,16 +95,27 @@ const getPlaces = async (value) => {
         { signal }
       );
       const { data } = await response.json();
-      const itemValue = data?.features || [];
 
-      items.value = itemValue.sort(
+      const itemValues = data?.features || [];
+      itemValues.forEach(
+        /** @param {placeItem} item */ (item) => {
+          item.stringDistance = leven(value, item.properties.name);
+        }
+      );
+      items.value = itemValues.sort(
         /**
          * @param {placeItem} a
          * @param {placeItem} b
          */
         (a, b) => {
+          const distanceCompare = a.stringDistance - b.stringDistance;
+          if (distanceCompare !== 0) {
+            return distanceCompare;
+          }
+          // if string distance is exactly the same, sort by custom pre-defined order
           return (
-            Number(a.properties.objectType) - Number(b.properties.objectType)
+            sortOrder.indexOf(objectTypes[a.properties.objectType]) -
+            sortOrder.indexOf(objectTypes[b.properties.objectType])
           );
         }
       );
