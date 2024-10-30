@@ -22,8 +22,36 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
-import { usePlaceSearch } from '../composables/usePlaceSearch.js';
+
+/**
+ * @typedef {Object} placeProperties
+ * @property {string} name
+ * @property {number | string} objectType
+ * @property {string} pg
+ */
+
+/**
+ * @typedef {Object} placeItem
+ * @property {placeProperties} properties
+ * @property {Object} geometry
+ * @property {string} id
+ */
+
+/**
+ * @type {Object.<string, string>} 
+ */
+const objectTypes = {
+  1: "Bundesland",
+  2: "Politische Gemeinde",
+  3: "Katasralgemeinde",
+  4: "Grundstueck",
+  5: "Grenzpunkt",
+  6: "Strasse",
+  7: "Hausnummer",
+  8: "Festpunkt",
+  9: "Riedname",
+  10: "Einlagezahl",
+};
 
 const { result } = usePlaceSearch();
 const emit = defineEmits(['result']);
