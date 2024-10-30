@@ -18,10 +18,20 @@
     return-object
     class="rounded"
     @click:clear="clear"
-  />
+  >
+    <template v-slot:item="{ props, item }">
+      <v-list-item
+        v-bind="props"
+        :subtitle="objectTypes[item.raw.properties.objectType] || ''"
+        :title="item.raw.properties.name"
+      ></v-list-item>
+    </template>
+  </v-autocomplete>
 </template>
 
 <script setup>
+import { ref, watch } from "vue";
+import { usePlaceSearch } from "../composables/usePlaceSearch.js";
 
 /**
  * @typedef {Object} placeProperties
@@ -54,18 +64,18 @@ const objectTypes = {
 };
 
 const { result } = usePlaceSearch();
-const emit = defineEmits(['result']);
+const emit = defineEmits(["result"]);
 
 const model = ref(null);
 const items = ref([]);
 /** @type {import("vue").Ref<AbortController>} */
 const abortController = ref(null);
-const search = ref('');
+const search = ref("");
 
 const clear = () => {
   model.value = null;
   items.value = [];
-  search.value = '';
+  search.value = "";
 };
 
 /**
@@ -91,7 +101,7 @@ const getPlaces = async (value) => {
     try {
       const response = await fetch(
         `https://kataster.bev.gv.at/api/all/?term=${encodeURIComponent(value)}`,
-        { signal },
+        { signal }
       );
       const { data } = await response.json();
       items.value = data?.features || [];
@@ -109,7 +119,7 @@ watch(search, (value) => {
 watch(model, (value) => {
   if (value) {
     result.value = value;
-    emit('result', value);
+    emit("result", value);
   }
 });
 </script>
