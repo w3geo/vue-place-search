@@ -48,7 +48,7 @@ import { usePlaceSearch } from "../composables/usePlaceSearch.js";
  */
 
 /**
- * @type {Object.<string, string>} 
+ * @type {Object.<string, string>}
  */
 const objectTypes = {
   1: "Bundesland",
@@ -104,7 +104,19 @@ const getPlaces = async (value) => {
         { signal }
       );
       const { data } = await response.json();
-      items.value = data?.features || [];
+      const itemValue = data?.features || [];
+
+      items.value = itemValue.sort(
+        /**
+         * @param {placeItem} a
+         * @param {placeItem} b
+         */
+        (a, b) => {
+          return (
+            Number(a.properties.objectType) - Number(b.properties.objectType)
+          );
+        }
+      );
       abortController.value = null;
     } catch (error) {
       // empty catch block
