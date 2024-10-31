@@ -34,7 +34,7 @@
     "build": "vue-tsc -b && vite build",
     "preview": "vite preview",
     "prepublish": "npm run build",
-    "watch": "nodemon --watch src --exec 'npm run build'",
+    "watch": "nodemon --watch src -e js,json,mjs,vue --exec 'npm run build'",
     "test": "npm run lint && npm run typecheck",
     "lint": "eslint . --fix && prettier --check src/ *.js",
     "format": "prettier --write src/ *.js",

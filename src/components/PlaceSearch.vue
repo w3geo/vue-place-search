@@ -9,6 +9,8 @@
     clearable
     density="compact"
     prepend-inner-icon="mdi-magnify"
+    prepend-icon="mdi-information"
+    @click:prepend="showInfo = !showInfo"
     :items="items"
     :loading="!!abortController"
     item-title="properties.name"
@@ -16,7 +18,7 @@
     :custom-filter="filter"
     label="Ort, Adresse, Flurname,..."
     return-object
-    class="rounded"
+    class="rounded included-search-click-outside"
     @click:clear="clear"
   >
     <template v-slot:item="{ props, item }">
@@ -27,6 +29,47 @@
       ></v-list-item>
     </template>
   </v-autocomplete>
+  <v-expand-transition>
+    <v-card
+      v-show="showInfo"
+      v-click-outside="{
+        handler: () => {
+          showInfo = false;
+        },
+        include,
+      }"
+    >
+      <v-card-title>
+        <v-icon size="small"> mdi-information-outline </v-icon>
+        Ortssuche
+      </v-card-title>
+      <v-card-subtitle>
+        Die Suche des
+        <a target="_blank" href="https://kataster.bev.gv.at"
+          >Österreichischen Katasters</a
+        ><br />
+        Suche nach Orten, Adressen, und mehr
+      </v-card-subtitle>
+      <v-card-text>
+        <v-timeline density="compact" align="start">
+          <v-timeline-item
+            v-for="(helpItem, key) in helpItems"
+            :key="key"
+            density="compact"
+            dot-color="success"
+            icon="mdi-text-search-variant"
+          >
+            <div>
+              <div class="font-weight-normal">
+                <strong> {{ helpItem.name }}</strong>
+              </div>
+              {{ helpItem.example }}
+            </div>
+          </v-timeline-item>
+        </v-timeline>
+      </v-card-text>
+    </v-card>
+  </v-expand-transition>
 </template>
 
 <script setup>
@@ -62,7 +105,35 @@ const { result } = usePlaceSearch();
 const emit = defineEmits(['result']);
 
 const model = ref(null);
+const showInfo = ref(false);
 const items = shallowRef([]);
+
+const helpItems = [
+  {
+    name: 'Orte, Dörfer, Gemeinden',
+    example: 'Salzburg, Bad Aussee, Praunfalk',
+  },
+  {
+    name: 'Adressen, Straßen, Hausnummern',
+    example: 'Johannes Filzer Straße 5 Salzburg',
+  },
+  {
+    name: 'KG-Nummer + Grundstücksnummer',
+    example: '49203-4',
+  },
+  {
+    name: 'Flurnamen, Riednamen, Einzelhäuser',
+    example: 'Niederrain, Teichgarten, Ziegenreith',
+  },
+  {
+    name: 'Sonstige geographische Gebiete',
+    example: 'Wörthersee, Sulm, Pötschenpass',
+  },
+];
+
+function include() {
+  return [document.querySelector('.included-search-click-outside')];
+}
 
 /** @type {import("vue").Ref<AbortController>} */
 const abortController = ref(null);
@@ -96,7 +167,7 @@ const sort = (a, b) =>
  * @param {string} value input search string
  */
 const getPlaces = async value => {
-  if (value.length > 3) {
+  if (value.length >= 2) {
     if (abortController.value) {
       abortController.value.abort();
     }
@@ -115,7 +186,7 @@ const getPlaces = async value => {
           item.score = quickScore(item.properties.name, value);
           item.type =
             objectTypes[item.properties.objectType] +
-            (item.properties.pg
+            (item.properties.objectType !== 3 && item.properties.pg
               ? ` (${item.properties.pg})`
               : item.properties.kg_nr
                 ? ` (${item.properties.kg_nr})`
