@@ -50,5 +50,8 @@
     "ol": "*",
     "vue": "^3.0.0",
     "vuetify": "^3.6.12"
+  },
+  "dependencies": {
+    "quick-score": "^0.2.0"
   }
 }
