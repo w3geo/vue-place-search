@@ -18,7 +18,7 @@
     :custom-filter="filter"
     label="Ort, Adresse, Flurname,..."
     return-object
-    class="rounded"
+    class="rounded included-search-click-outside"
     @click:clear="clear"
   >
     <template v-slot:item="{ props, item }">
@@ -30,7 +30,15 @@
     </template>
   </v-autocomplete>
   <v-expand-transition>
-    <v-card v-show="showInfo">
+    <v-card
+      v-show="showInfo"
+      v-click-outside="{
+        handler: () => {
+          showInfo = false;
+        },
+        include,
+      }"
+    >
       <v-card-title>
         <v-icon size="small"> mdi-information-outline </v-icon>
         Ortssuche
@@ -121,6 +129,10 @@ const helpItems = [
     example: 'Wörthersee, Schwarze Sulm, Pötschenpass',
   },
 ];
+
+function include() {
+  return [document.querySelector('.included-search-click-outside')]
+}
 
 /** @type {import("vue").Ref<AbortController>} */
 const abortController = ref(null);
