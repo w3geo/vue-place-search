@@ -52,6 +52,6 @@
     "vuetify": "^3.6.12"
   },
   "dependencies": {
-    "leven": "^4.0.0"
+    "quick-score": "^0.2.0"
   }
 }

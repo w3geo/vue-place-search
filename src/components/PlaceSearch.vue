@@ -22,7 +22,7 @@
     <template v-slot:item="{ props, item }">
       <v-list-item
         v-bind="props"
-        :subtitle="objectTypes[item.raw.properties.objectType] || ''"
+        :subtitle="item.raw.type"
         :title="item.raw.properties.name"
       ></v-list-item>
     </template>
@@ -32,26 +32,31 @@
 <script setup>
 import { ref, shallowRef, watch } from "vue";
 import { usePlaceSearch } from "../composables/usePlaceSearch.js";
-import leven from "leven";
-import { objectTypes, sortOrder } from "../constants.js";
+import { objectTypes } from "../constants.js";
+import {quickScore} from "quick-score";
 
 /**
- * @typedef {Object} placeProperties
+ * @typedef {Object} PlaceProperties
  * @property {string} name
- * @property {number | string} objectType
- * @property {string} pg
+ * @property {number} objectType
+ * @property {string} [pg]
+ * @property {string} [kg_nr]
  */
 
 /**
- * @typedef {Object} placeItem
- * @property {placeProperties} properties
+ * @typedef {Object} PlaceItem
+ * @property {PlaceProperties} properties
  * @property {Object} geometry
+ * @property {string} [type]
+ * @property {number} [score]
  * @property {string} id
- * @property {number=} stringDistance levenshtein distance between name and search string
  */
 
-
-
+/**
+ * @param {PlaceItem} a
+ * @param {PlaceItem} b
+ * @returns {number}
+ */
 
 const { result } = usePlaceSearch();
 const emit = defineEmits(["result"]);
@@ -80,6 +85,13 @@ const filter = (haystack, needle) => {
 };
 
 /**
+ * @param {PlaceItem} a
+ * @param {PlaceItem} b
+ * @returns {number}
+ */
+const sort = (a, b) => b.score - a.score || a.properties.objectType - b.properties.objectType;
+
+/**
  * @param {string} value input search string
  */
 const getPlaces = async (value) => {
@@ -91,34 +103,18 @@ const getPlaces = async (value) => {
     const { signal } = abortController.value;
     try {
       const response = await fetch(
-        `https://kataster.bev.gv.at/api/all/?term=${encodeURIComponent(value)}`,
+        `https://kataster.bev.gv.at/api/search/?layers=pg-adr-gn-rn-gst-kg-bl&term=${encodeURIComponent(value)}`,
         { signal }
       );
       const { data } = await response.json();
 
       const itemValues = data?.features || [];
-      itemValues.forEach(
-        /** @param {placeItem} item */ (item) => {
-          item.stringDistance = leven(value, item.properties.name);
-        }
-      );
-      items.value = itemValues.sort(
-        /**
-         * @param {placeItem} a
-         * @param {placeItem} b
-         */
-        (a, b) => {
-          const distanceCompare = a.stringDistance - b.stringDistance;
-          if (distanceCompare !== 0) {
-            return distanceCompare;
-          }
-          // if string distance is exactly the same, sort by custom pre-defined order
-          return (
-            sortOrder.indexOf(objectTypes[a.properties.objectType]) -
-            sortOrder.indexOf(objectTypes[b.properties.objectType])
-          );
-        }
-      );
+      itemValues.forEach(/** @param {PlaceItem} item */ (item) => {
+        item.score = quickScore(item.properties.name, value);
+        item.type = objectTypes[item.properties.objectType] + (item.properties.pg ? ` (${item.properties.pg})` : item.properties.kg_nr ? ` (${item.properties.kg_nr})` : "");
+      });
+      itemValues.sort(sort);
+      items.value = itemValues;
       abortController.value = null;
     } catch (error) {
       // empty catch block

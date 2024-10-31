@@ -1,5 +1,5 @@
 /**
- * @type {Object.<string, string>}
+ * @type {Object<number, string>}
  */
 export const objectTypes = {
   1: "Bundesland",
@@ -13,29 +13,29 @@ export const objectTypes = {
   11: "Straße + Hausnummer",
   12: "Straße",
   21: "Festpunkt",
-  101: "Koordinate (WGS84)",
-  102: "Koordinate (MGI M28)",
-  103: "Koordinate (MGI M31)",
-  104: "Koordinate (MGI M34)",
-  105: "Koordinate (UTM 32N)",
-  106: "Koordinate (UTM 33N)",
+  101: "Koordinate WGS84",
+  102: "Koordinate MGI M28",
+  103: "Koordinate MGI M31",
+  104: "Koordinate MGI M34",
+  105: "Koordinate UTM 32N",
+  106: "Koordinate UTM 33N",
   7101: "Stadt",
   7102: "Markt",
   7103: "Dorf",
   7104: "Stadtteil",
   7111: "Einzelhäuser",
-  7123: "Dorf (aufgelassen)",
-  7124: "Stadtteil (aufgelassen)",
-  7131: "Einzelhäuser (aufgelassen)",
+  7123: "Dorf, aufgelassen",
+  7124: "Stadtteil, aufgelassen",
+  7131: "Einzelhäuser, aufgelassen",
   7201: "Gebiet > 10 km Länge ",
   7202: "Gebiet 5-10 km Länge",
   7203: "Gebiet 2-5 km Länge",
   7204: "Gebiet < 2 km Länge",
   7301: "Gebirge, Tal > 30 km Länge",
   7302: "Gebirge, Tal < 30 km Länge",
-  7303: "Berg, Tal (bedeutend)",
-  7304: "Berg, Tal (gering bedeutend)",
-  7305: "Berg, Tal (lokal bedeutend)",
+  7303: "Berg/Tal, bedeutend",
+  7304: "Berg/Tal, gering bedeutend",
+  7305: "Berg/Tal, lokal bedeutend",
   7401: "Gletscher > 6 km Länge",
   7402: "Gletscher 2-6 km Länge",
   7403: "Gletscher < 2 km Länge",
@@ -50,20 +50,3 @@ export const objectTypes = {
   7611: "Sonstiger Name",
   7701: "Riedname",
 };
-
-/** @type {Array<string>} */
-export const sortOrder = [
-  "Hausnummer",
-  "Straße",
-  "Riedname",
-  "Grundstück",
-  "Einlagezahl",
-  "Katastralgemeinde",
-  "Gemeinde",
-  "Bundesland",
-  "Festpunkt",
-  "Grenzpunkt",
-];
-Object.values(objectTypes)
-  .filter((v) => !sortOrder.includes(v))
-  .forEach((v) => sortOrder.push(v));
