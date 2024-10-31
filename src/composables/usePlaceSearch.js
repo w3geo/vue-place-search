@@ -11,11 +11,14 @@ const geojsonFormat = new GeoJSON();
  */
 export function usePlaceSearch(map) {
   if (map) {
-    watch(result, (value) => {
+    watch(result, value => {
       if (value) {
         map
           .getView()
-          .fit(geojsonFormat.readGeometry(value.geometry).getExtent(), { maxZoom: 19, duration: 500 });
+          .fit(geojsonFormat.readGeometry(value.geometry).getExtent(), {
+            maxZoom: 19,
+            duration: 500,
+          });
       }
     });
   }
