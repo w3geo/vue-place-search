@@ -45,7 +45,8 @@
       </v-card-title>
       <v-card-subtitle>
         Die Suche des
-        <a href="https://kataster.bev.gv.at">Österreichischen Katasters</a
+        <a target="_blank" href="https://kataster.bev.gv.at"
+          >Österreichischen Katasters</a
         ><br />
         Suche nach Orten, Adressen, und mehr
       </v-card-subtitle>
@@ -110,28 +111,28 @@ const items = shallowRef([]);
 const helpItems = [
   {
     name: 'Orte, Dörfer, Gemeinden',
-    example: 'Salzburg, Liezen, Bad Aussee, Praunfalk',
+    example: 'Salzburg, Bad Aussee, Praunfalk',
   },
   {
     name: 'Adressen, Straßen, Hausnummern',
-    example: 'Johannes Filzer Straße 5 5020 Salzburg',
+    example: 'Johannes Filzer Straße 5 Salzburg',
   },
   {
-    name: 'KG-Nummer, Grundstücksnummer',
+    name: 'KG-Nummer + Grundstücksnummer',
     example: '49203-4',
   },
   {
-    name: 'Flurname, Riednamen, Einzelhäuser',
-    example: 'Ziegenreith, Unterstegalpe',
+    name: 'Flurnamen, Riednamen, Einzelhäuser',
+    example: 'Niederrain, Teichgarten, Ziegenreith',
   },
   {
-    name: 'sonstige geographische Gebiete',
-    example: 'Wörthersee, Schwarze Sulm, Pötschenpass',
+    name: 'Sonstige geographische Gebiete',
+    example: 'Wörthersee, Sulm, Pötschenpass',
   },
 ];
 
 function include() {
-  return [document.querySelector('.included-search-click-outside')]
+  return [document.querySelector('.included-search-click-outside')];
 }
 
 /** @type {import("vue").Ref<AbortController>} */
@@ -166,7 +167,7 @@ const sort = (a, b) =>
  * @param {string} value input search string
  */
 const getPlaces = async value => {
-  if (value.length > 3) {
+  if (value.length >= 2) {
     if (abortController.value) {
       abortController.value.abort();
     }
@@ -185,7 +186,7 @@ const getPlaces = async value => {
           item.score = quickScore(item.properties.name, value);
           item.type =
             objectTypes[item.properties.objectType] +
-            (item.properties.pg
+            (item.properties.objectType !== 3 && item.properties.pg
               ? ` (${item.properties.pg})`
               : item.properties.kg_nr
                 ? ` (${item.properties.kg_nr})`
