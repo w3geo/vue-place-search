@@ -4,9 +4,10 @@
   "version": "1.0.2",
   "type": "module",
   "files": [
-    "dist/",
-    "src/"
+    "dist/"
   ],
+  "main": "./dist/vue-place-search.js",
+  "types": "./dist/src/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/w3geo/vue-place-search.git"
@@ -32,16 +33,25 @@
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
     "preview": "vite preview",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "watch": "nodemon --watch src --exec 'npm run build'",
+    "test": "npm run lint && npm run typecheck",
+    "lint": "eslint . --fix && prettier --check src/ *.js",
+    "format": "prettier --write src/ *.js",
+    "typecheck": "vue-tsc --noEmit"
   },
   "devDependencies": {
     "@types/node": "^20.14.9",
-    "@types/rollup-plugin-peer-deps-external": "^2.2.5",
     "@vitejs/plugin-vue": "^5.0.5",
+    "@vue/eslint-config-prettier": "^10.1.0",
+    "eslint": "^9.13.0",
+    "eslint-plugin-vue": "^9.30.0",
+    "nodemon": "^3.1.7",
+    "prettier": "^3.3.3",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "typescript": "^5.2.2",
     "vite": "^5.3.1",
-    "vite-plugin-dts": "^3.9.1",
+    "vite-plugin-dts": "^4.3.0",
     "vite-plugin-vuetify": "^2.0.3",
     "vue-tsc": "^2.0.21"
   },

@@ -42,3 +42,11 @@ Instead of the `@result` event, the `usePlaceSearch()` composable can be used to
 </script>
 ```
 With this, the map view will automatically be centered on the result geometry.
+
+## Developing
+
+To develop this plugin, it is recommended to set up a test app according to the instructions below, and use [npm link](https://docs.npmjs.com/cli/v10/commands/npm-link). When that is setup properly, use
+
+    npm run watch
+
+to automatically update the linked package in the test application.

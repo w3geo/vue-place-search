@@ -30,10 +30,10 @@
 </template>
 
 <script setup>
-import { ref, shallowRef, watch } from "vue";
-import { usePlaceSearch } from "../composables/usePlaceSearch.js";
-import { objectTypes } from "../constants.js";
-import {quickScore} from "quick-score";
+import { ref, shallowRef, watch } from 'vue';
+import { usePlaceSearch } from '../composables/usePlaceSearch.js';
+import { objectTypes } from '../constants.js';
+import { quickScore } from 'quick-score';
 
 /**
  * @typedef {Object} PlaceProperties
@@ -59,19 +59,19 @@ import {quickScore} from "quick-score";
  */
 
 const { result } = usePlaceSearch();
-const emit = defineEmits(["result"]);
+const emit = defineEmits(['result']);
 
 const model = ref(null);
 const items = shallowRef([]);
 
 /** @type {import("vue").Ref<AbortController>} */
 const abortController = ref(null);
-const search = ref("");
+const search = ref('');
 
 const clear = () => {
   model.value = null;
   items.value = [];
-  search.value = "";
+  search.value = '';
 };
 
 /**
@@ -89,12 +89,13 @@ const filter = (haystack, needle) => {
  * @param {PlaceItem} b
  * @returns {number}
  */
-const sort = (a, b) => b.score - a.score || a.properties.objectType - b.properties.objectType;
+const sort = (a, b) =>
+  b.score - a.score || a.properties.objectType - b.properties.objectType;
 
 /**
  * @param {string} value input search string
  */
-const getPlaces = async (value) => {
+const getPlaces = async value => {
   if (value.length > 3) {
     if (abortController.value) {
       abortController.value.abort();
@@ -104,32 +105,40 @@ const getPlaces = async (value) => {
     try {
       const response = await fetch(
         `https://kataster.bev.gv.at/api/search/?layers=pg-adr-gn-rn-gst-kg-bl&term=${encodeURIComponent(value)}`,
-        { signal }
+        { signal },
       );
       const { data } = await response.json();
 
       const itemValues = data?.features || [];
-      itemValues.forEach(/** @param {PlaceItem} item */ (item) => {
-        item.score = quickScore(item.properties.name, value);
-        item.type = objectTypes[item.properties.objectType] + (item.properties.pg ? ` (${item.properties.pg})` : item.properties.kg_nr ? ` (${item.properties.kg_nr})` : "");
-      });
+      itemValues.forEach(
+        /** @param {PlaceItem} item */ item => {
+          item.score = quickScore(item.properties.name, value);
+          item.type =
+            objectTypes[item.properties.objectType] +
+            (item.properties.pg
+              ? ` (${item.properties.pg})`
+              : item.properties.kg_nr
+                ? ` (${item.properties.kg_nr})`
+                : '');
+        },
+      );
       itemValues.sort(sort);
       items.value = itemValues;
       abortController.value = null;
-    } catch (error) {
+    } catch {
       // empty catch block
     }
   }
 };
 
-watch(search, (value) => {
+watch(search, value => {
   getPlaces(value);
 });
 
-watch(model, (value) => {
+watch(model, value => {
   if (value) {
     result.value = value;
-    emit("result", value);
+    emit('result', value);
   }
 });
 </script>
