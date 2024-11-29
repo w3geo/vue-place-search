@@ -33,15 +33,16 @@ Instead of the `@result` event, the `usePlaceSearch()` composable can be used to
   import { useMap } from './composables/useMap.js';
 
   const map = useMap();
-  
+
   const { result } = usePlaceSearch(map);
 
-  watch(result, (value) => {
+  watch(result, value => {
     console.log(value);
   });
 </script>
 ```
-With this, the map view will automatically be centered on the result geometry.
+
+With this, the map view will automatically be centered on the result geometry, and the bounding box of the selected search result will be displayed on the map, if available.
 
 ## Developing
 
