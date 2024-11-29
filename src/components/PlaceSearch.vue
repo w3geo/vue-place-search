@@ -95,16 +95,10 @@ import { quickScore } from 'quick-score';
  * @property {string} id
  */
 
-/**
- * @param {PlaceItem} a
- * @param {PlaceItem} b
- * @returns {number}
- */
-
 const { result } = usePlaceSearch();
 const emit = defineEmits(['result']);
 
-const model = ref(null);
+const model = shallowRef(null);
 const showInfo = ref(false);
 const items = shallowRef([]);
 
@@ -207,10 +201,8 @@ watch(search, value => {
 });
 
 watch(model, value => {
-  if (value) {
-    result.value = value;
-    emit('result', value);
-  }
+  result.value = value;
+  emit('result', value);
 });
 </script>
 
