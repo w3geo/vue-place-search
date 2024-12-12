@@ -9,8 +9,8 @@
     clearable
     density="compact"
     prepend-inner-icon="mdi-magnify"
-    prepend-icon="mdi-information"
-    @click:prepend="showInfo = !showInfo"
+    @focus="handleInfoVisibility(true)"
+    @blur="handleInfoVisibility(false)"
     :items="items"
     :loading="!!abortController"
     item-title="properties.name"
@@ -18,7 +18,7 @@
     :custom-filter="filter"
     label="Ort, Adresse, Flurname,..."
     return-object
-    class="rounded included-search-click-outside"
+    class="rounded"
     @click:clear="clear"
   >
     <template v-slot:item="{ props, item }">
@@ -30,15 +30,7 @@
     </template>
   </v-autocomplete>
   <v-expand-transition>
-    <v-card
-      v-show="showInfo"
-      v-click-outside="{
-        handler: () => {
-          showInfo = false;
-        },
-        include,
-      }"
-    >
+    <v-card v-show="showInfo">
       <v-card-title>
         <v-icon size="small"> mdi-information-outline </v-icon>
         Ortssuche
@@ -51,7 +43,7 @@
         Suche nach Orten, Adressen, und mehr
       </v-card-subtitle>
       <v-card-text>
-        <v-timeline density="compact" align="start">
+        <v-timeline density="compact" align="start" line-thickness="0">
           <v-timeline-item
             v-for="(helpItem, key) in helpItems"
             :key="key"
@@ -125,10 +117,6 @@ const helpItems = [
   },
 ];
 
-function include() {
-  return [document.querySelector('.included-search-click-outside')];
-}
-
 /** @type {import("vue").Ref<AbortController>} */
 const abortController = ref(null);
 const search = ref('');
@@ -190,6 +178,7 @@ const getPlaces = async value => {
       itemValues.sort(sort);
       items.value = itemValues;
       abortController.value = null;
+      showInfo.value = false;
     } catch {
       // empty catch block
     }
@@ -204,6 +193,20 @@ watch(model, value => {
   result.value = value;
   emit('result', value);
 });
+
+/**
+ * shows the info, if no items are to show
+ * clears the search results if blurred and
+ * @param {boolean} visible
+ */
+function handleInfoVisibility(visible) {
+  if (!model.value) {
+    showInfo.value = visible;
+    if (!visible) {
+      clear();
+    }
+  }
+}
 </script>
 
 <style scoped>
