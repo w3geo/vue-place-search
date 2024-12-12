@@ -43,7 +43,7 @@
         Suche nach Orten, Adressen, und mehr
       </v-card-subtitle>
       <v-card-text>
-        <v-timeline density="compact" align="start">
+        <v-timeline density="compact" align="start" line-thickness="0">
           <v-timeline-item
             v-for="(helpItem, key) in helpItems"
             :key="key"
