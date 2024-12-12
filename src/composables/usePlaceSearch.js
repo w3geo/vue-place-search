@@ -5,7 +5,7 @@ import VectorSource from 'ol/source/Vector';
 import Style from 'ol/style/Style';
 import { Feature } from 'ol';
 import Stroke from 'ol/style/Stroke';
-import { transformExtent } from 'ol/proj';
+import { getUserProjection } from 'ol/proj';
 
 /** @type {import('vue').ShallowRef<import('../components/PlaceSearch.vue').PlaceItem | null>} */
 const result = shallowRef(null);
@@ -40,19 +40,16 @@ export function usePlaceSearch(map) {
         resultLayer.setMap(null);
         return;
       }
+      const userProjection =
+        getUserProjection() || map.getView().getProjection();
       const resultGeometry = geojsonFormat.readGeometry(value.geometry, {
-        featureProjection: 'EPSG:3857',
+        featureProjection: userProjection,
       });
-      map
-        .getView()
-        .fit(
-          transformExtent(resultGeometry.getExtent(), 'EPSG:3857', 'EPSG:4326'),
-          {
-            maxZoom: 19,
-            duration: 500,
-            padding: [20, 20, 20, 20],
-          },
-        );
+      map.getView().fit(resultGeometry.getExtent(), {
+        maxZoom: 19,
+        duration: 500,
+        padding: [20, 20, 20, 20],
+      });
 
       const feature = new Feature({
         geometry: resultGeometry,
