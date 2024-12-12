@@ -9,8 +9,8 @@
     clearable
     density="compact"
     prepend-inner-icon="mdi-magnify"
-    prepend-icon="mdi-information"
-    @click:prepend="showInfo = !showInfo"
+    @focus="handleInfoVisibility(true)"
+    @blur="handleInfoVisibility(false)"
     :items="items"
     :loading="!!abortController"
     item-title="properties.name"
@@ -178,6 +178,7 @@ const getPlaces = async value => {
       itemValues.sort(sort);
       items.value = itemValues;
       abortController.value = null;
+      showInfo.value = false;
     } catch {
       // empty catch block
     }
@@ -192,6 +193,20 @@ watch(model, value => {
   result.value = value;
   emit('result', value);
 });
+
+/**
+ * shows the info, if no items are to show
+ * clears the search results if blurred and
+ * @param {boolean} visible
+ */
+function handleInfoVisibility(visible) {
+  if (!model.value) {
+    showInfo.value = visible;
+    if (!visible) {
+      clear();
+    }
+  }
+}
 </script>
 
 <style scoped>
