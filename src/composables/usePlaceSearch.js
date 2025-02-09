@@ -1,11 +1,11 @@
+import Feature from 'ol/Feature.js';
+import GeoJSON from 'ol/format/GeoJSON.js';
+import VectorLayer from 'ol/layer/Vector.js';
+import { getUserProjection } from 'ol/proj.js';
+import VectorSource from 'ol/source/Vector.js';
+import Stroke from 'ol/style/Stroke.js';
+import Style from 'ol/style/Style.js';
 import { onUnmounted, shallowRef, watch } from 'vue';
-import { GeoJSON } from 'ol/format.js';
-import VectorLayer from 'ol/layer/Vector';
-import VectorSource from 'ol/source/Vector';
-import Style from 'ol/style/Style';
-import { Feature } from 'ol';
-import Stroke from 'ol/style/Stroke';
-import { getUserProjection } from 'ol/proj';
 
 /** @type {import('vue').ShallowRef<import('../components/PlaceSearch.vue').PlaceItem | null>} */
 const result = shallowRef(null);
