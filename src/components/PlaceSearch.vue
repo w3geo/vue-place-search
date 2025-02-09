@@ -2,26 +2,26 @@
   <v-autocomplete
     v-model="model"
     v-model:search="search"
+    auto-select-first
+    class="rounded"
+    clearable
+    :custom-filter="filter"
+    density="compact"
     hide-details
+    hide-no-data
+    item-title="properties.name"
+    :items="items"
+    label="Ort, Adresse, Flurname,..."
+    :loading="!!abortController"
+    prepend-inner-icon="mdi-magnify"
+    return-object
     single-line
     variant="outlined"
-    auto-select-first
-    clearable
-    density="compact"
-    prepend-inner-icon="mdi-magnify"
-    @focus="handleInfoVisibility(true)"
     @blur="handleInfoVisibility(false)"
-    :items="items"
-    :loading="!!abortController"
-    item-title="properties.name"
-    hide-no-data
-    :custom-filter="filter"
-    label="Ort, Adresse, Flurname,..."
-    return-object
-    class="rounded"
     @click:clear="clear"
+    @focus="handleInfoVisibility(true)"
   >
-    <template v-slot:item="{ props, item }">
+    <template #item="{ props, item }">
       <v-list-item
         v-bind="props"
         :subtitle="item.raw.type"
@@ -37,13 +37,13 @@
       </v-card-title>
       <v-card-subtitle>
         Die Suche des
-        <a target="_blank" href="https://kataster.bev.gv.at"
+        <a href="https://kataster.bev.gv.at" target="_blank"
           >Österreichischen Katasters</a
         ><br />
         Suche nach Orten, Adressen, und mehr
       </v-card-subtitle>
       <v-card-text>
-        <v-timeline density="compact" align="start" line-thickness="0">
+        <v-timeline align="start" density="compact" line-thickness="0">
           <v-timeline-item
             v-for="(helpItem, key) in helpItems"
             :key="key"
@@ -65,6 +65,8 @@
 </template>
 
 <script setup>
+// eslint-disable-next-line
+import 'vuetify/styles';
 import { ref, shallowRef, watch } from 'vue';
 import { usePlaceSearch } from '../composables/usePlaceSearch.js';
 import { objectTypes } from '../constants.js';

@@ -3,10 +3,12 @@ import skipFormatting from '@vue/eslint-config-prettier/skip-formatting';
 import importPlugin from 'eslint-plugin-import';
 import pluginVue from 'eslint-plugin-vue';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import vuetify from 'eslint-config-vuetify';
 
 export default [
   js.configs.recommended,
   ...pluginVue.configs['flat/essential'],
+  ...vuetify,
   skipFormatting,
   importPlugin.flatConfigs.recommended,
   eslintPluginPrettierRecommended,

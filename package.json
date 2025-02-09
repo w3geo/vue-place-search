@@ -45,6 +45,7 @@
     "@vitejs/plugin-vue": "^5.0.5",
     "@vue/eslint-config-prettier": "^10.1.0",
     "eslint": "^9.13.0",
+    "eslint-config-vuetify": "^2.0.5",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-prettier": "^5.2.3",
     "eslint-plugin-vue": "^9.30.0",
@@ -53,7 +54,7 @@
     "typescript": "^5.2.2",
     "vite": "^5.3.1",
     "vite-plugin-dts": "^4.3.0",
-    "vite-plugin-vuetify": "^2.0.3",
+    "vite-plugin-vuetify": "^2.1.0",
     "vue-tsc": "^2.0.21"
   },
   "peerDependencies": {
