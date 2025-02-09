@@ -65,8 +65,6 @@
 </template>
 
 <script setup>
-// eslint-disable-next-line
-import 'vuetify/styles';
 import { ref, shallowRef, watch } from 'vue';
 import { usePlaceSearch } from '../composables/usePlaceSearch.js';
 import { objectTypes } from '../constants.js';
