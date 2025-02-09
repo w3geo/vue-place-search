@@ -12,8 +12,8 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 export default defineConfig({
   plugins: [
     vue(),
+    vuetify(),
     dts({ tsconfigPath: './tsconfig.app.json', rollupTypes: true }),
-    vuetify({ autoImport: true }),
     peerDepsExternal(),
   ],
   build: {
