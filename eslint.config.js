@@ -35,6 +35,7 @@ export default [
     rules: {
       'no-unused-vars': 'off',
       'import/no-dynamic-require': 'warn',
+      'import/no-unresolved': 'off',
     },
   },
 ];
