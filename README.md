@@ -46,8 +46,6 @@ With this, the map view will automatically be centered on the result geometry, a
 
 ## Developing
 
-To develop this plugin, it is recommended to set up a test app according to the instructions below, and use [npm link](https://docs.npmjs.com/cli/v10/commands/npm-link). When that is setup properly, use
+To develop this plugin, an example has been set up in `example/`. To run the example with dynamically built plugin, run
 
-    npm run watch
-
-to automatically update the linked package in the test application.
+    npm run dev:example
