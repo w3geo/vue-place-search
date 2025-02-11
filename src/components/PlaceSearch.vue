@@ -80,27 +80,13 @@ import {
   mdiTextSearchVariant,
 } from '@mdi/js';
 
-/**
- * @typedef {Object} PlaceProperties
- * @property {string} name
- * @property {number} objectType
- * @property {string} [pg]
- * @property {string} [kg_nr]
- */
-
-/**
- * @typedef {Object} PlaceItem
- * @property {PlaceProperties} properties
- * @property {Object} geometry
- * @property {string} [type]
- * @property {number} [score]
- * @property {string} id
- */
-
 const autocompleteRef = ref(null);
 const { result } = usePlaceSearch();
+//@ts-expect-error
+/** @type {ReturnType<typeof defineEmits<{(eventType: 'result', placeItem: PlaceItem): void}>>} */
 const emit = defineEmits(['result']);
 
+/** @type {import("vue").ShallowRef<import('../index.js').PlaceItem>} */
 const model = shallowRef(null);
 const showInfo = ref(false);
 const items = shallowRef([]);
@@ -149,8 +135,8 @@ const filter = (haystack, needle) => {
 };
 
 /**
- * @param {PlaceItem} a
- * @param {PlaceItem} b
+ * @param {import('../index.js').PlaceItem} a
+ * @param {import('../index.js').PlaceItem} b
  * @returns {number}
  */
 const sort = (a, b) =>
@@ -173,19 +159,18 @@ const getPlaces = async value => {
       );
       const { data } = await response.json();
 
+      /** @type {Array<import('../index.js').PlaceItem>} */
       const itemValues = data?.features || [];
-      itemValues.forEach(
-        /** @param {PlaceItem} item */ item => {
-          item.score = quickScore(item.properties.name, value);
-          item.type =
-            objectTypes[item.properties.objectType] +
-            (item.properties.objectType !== 3 && item.properties.pg
-              ? ` (${item.properties.pg})`
-              : item.properties.kg_nr
-                ? ` (${item.properties.kg_nr})`
-                : '');
-        },
-      );
+      itemValues.forEach(item => {
+        item.score = quickScore(item.properties.name, value);
+        item.type =
+          objectTypes[item.properties.objectType] +
+          (item.properties.objectType !== 3 && item.properties.pg
+            ? ` (${item.properties.pg})`
+            : item.properties.kg_nr
+              ? ` (${item.properties.kg_nr})`
+              : '');
+      });
       itemValues.sort(sort);
       items.value = itemValues;
       abortController.value = null;

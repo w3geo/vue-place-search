@@ -13,7 +13,7 @@ export default defineConfig({
   plugins: [
     vue(),
     vuetify(),
-    dts({ tsconfigPath: './tsconfig.app.json', rollupTypes: true }),
+    dts({ tsconfigPath: './tsconfig.app.json' }),
     peerDepsExternal(),
   ],
   build: {
