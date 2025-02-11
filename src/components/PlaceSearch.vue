@@ -1,71 +1,72 @@
 <template>
-    <v-autocomplete
-      v-model="model"
-      v-model:search="search"
-      ref="autocompleteRef"
-      auto-select-first
-      class="rounded searchContainer"
-      clearable
-      :custom-filter="filter"
-      density="compact"
-      hide-details
-      hide-no-data
-      item-title="properties.name"
-      :items="items"
-      label="Ort, Adresse, Flurname,..."
-      :loading="!!abortController"
-      :prepend-inner-icon="mdiMagnify"
-      return-object
-      single-line
-      variant="outlined"
-      @focus="handleInfoVisibility(true)"
-      @click:clear="clear"
-    >
-      <template #item="{ props, item }">
-        <v-list-item
-          v-bind="props"
-          :key="item.raw.id"
-          :id="item.raw.id"
-          :value="item.raw.id"
-          :subtitle="item.raw.type"
-          :title="item.raw.properties.name"
-        ></v-list-item>
-      </template>
-    </v-autocomplete>
+  <v-autocomplete
+    v-model="model"
+    v-model:search="search"
+    ref="autocompleteRef"
+    auto-select-first
+    class="rounded"
+    min-width="280px"
+    clearable
+    :custom-filter="filter"
+    density="compact"
+    hide-details
+    hide-no-data
+    item-title="properties.name"
+    :items="items"
+    label="Ort, Adresse, Flurname,..."
+    :loading="!!abortController"
+    :prepend-inner-icon="mdiMagnify"
+    return-object
+    single-line
+    variant="outlined"
+    @focus="handleInfoVisibility(true)"
+    @click:clear="clear"
+  >
+    <template #item="{ props, item }">
+      <v-list-item
+        v-bind="props"
+        :key="item.raw.id"
+        :id="item.raw.id"
+        :value="item.raw.id"
+        :subtitle="item.raw.type"
+        :title="item.raw.properties.name"
+      ></v-list-item>
+    </template>
+  </v-autocomplete>
 
-    <v-menu v-model="showInfo" :target="autocompleteRef">
-      <v-card>
-        <v-card-title>
-          <v-icon :icon="mdiInformationOutline" size="small" />
-          Ortssuche
-        </v-card-title>
-        <v-card-subtitle>
-          Die Suche des
-          <a href="https://kataster.bev.gv.at" target="_blank"
-            >Österreichischen Katasters</a
-          ><br />
-          Suche nach Orten, Adressen, und mehr
-        </v-card-subtitle>
-        <v-card-text>
-          <v-timeline align="start" density="compact" line-thickness="0">
-            <v-timeline-item
-              v-for="(helpItem, key) in helpItems"
-              :key="key"
-              density="compact"
-              dot-color="success"
-              :icon="mdiTextSearchVariant"
-            >
-              <div>
-                <div class="font-weight-normal">
-                  <strong> {{ helpItem.name }}</strong>
-                </div>
-                {{ helpItem.example }}
+  <v-menu v-model="showInfo" :target="autocompleteRef">
+    <v-card>
+      <v-card-title>
+        <v-icon :icon="mdiInformationOutline" size="small" />
+        Ortssuche
+      </v-card-title>
+      <v-card-subtitle>
+        Die Suche des
+        <a href="https://kataster.bev.gv.at" target="_blank"
+          >Österreichischen Katasters</a
+        ><br />
+        Suche nach Orten, Adressen, und mehr
+      </v-card-subtitle>
+      <v-card-text>
+        <v-timeline align="start" density="compact" line-thickness="0">
+          <v-timeline-item
+            v-for="(helpItem, key) in helpItems"
+            :key="key"
+            density="compact"
+            dot-color="success"
+            :icon="mdiTextSearchVariant"
+          >
+            <div>
+              <div class="font-weight-normal">
+                <strong> {{ helpItem.name }}</strong>
               </div>
-            </v-timeline-item>
-          </v-timeline>
-        </v-card-text>
-      </v-card>
-    </v-menu>
+              {{ helpItem.example }}
+            </div>
+          </v-timeline-item>
+        </v-timeline>
+      </v-card-text>
+    </v-card>
+  </v-menu>
 </template>
 
 <script setup>
@@ -218,9 +219,3 @@ function handleInfoVisibility(visible) {
   }
 }
 </script>
-
-<style scoped>
-.searchContainer {
-  min-width: 280px;
-}
-</style>
