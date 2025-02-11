@@ -1,11 +1,10 @@
 <template>
   <v-autocomplete
+    ref="autocompleteRef"
     v-model="model"
     v-model:search="search"
-    ref="autocompleteRef"
     auto-select-first
     class="rounded"
-    min-width="280px"
     clearable
     :custom-filter="filter"
     density="compact"
@@ -15,21 +14,22 @@
     :items="items"
     label="Ort, Adresse, Flurname,..."
     :loading="!!abortController"
+    min-width="280px"
     :prepend-inner-icon="mdiMagnify"
     return-object
     single-line
     variant="outlined"
-    @focus="handleInfoVisibility(true)"
     @click:clear="clear"
+    @focus="handleInfoVisibility(true)"
   >
     <template #item="{ props, item }">
       <v-list-item
         v-bind="props"
-        :key="item.raw.id"
         :id="item.raw.id"
-        :value="item.raw.id"
+        :key="item.raw.id"
         :subtitle="item.raw.type"
         :title="item.raw.properties.name"
+        :value="item.raw.id"
       ></v-list-item>
     </template>
   </v-autocomplete>
