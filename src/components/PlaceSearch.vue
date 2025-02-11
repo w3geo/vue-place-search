@@ -24,6 +24,9 @@
       <template #item="{ props, item }">
         <v-list-item
           v-bind="props"
+          :key="item.raw.id"
+          :id="item.raw.id"
+          :value="item.raw.id"
           :subtitle="item.raw.type"
           :title="item.raw.properties.name"
         ></v-list-item>
