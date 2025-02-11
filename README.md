@@ -13,7 +13,6 @@ Vue3 place search for Austria, using the [BEV Kataster](https://kataster.bev.gv.
   <PlaceSearch @result="showResult" />
 </template>
 <script setup>
-  import '@w3geo/vue-place-search/dist/style.css';
   import { PlaceSearch } from '@w3geo/vue-place-search';
 
   function showResult(result) {
@@ -48,4 +47,4 @@ With this, the map view will automatically be centered on the result geometry, a
 
 To develop this plugin, an example has been set up in `example/`. To run the example with dynamically built plugin, run
 
-    npm run dev:example
+    npm run dev
