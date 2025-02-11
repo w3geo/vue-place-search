@@ -1,10 +1,10 @@
 <template>
-  <v-sheet class="searchContainer">
     <v-autocomplete
       v-model="model"
       v-model:search="search"
+      ref="autocompleteRef"
       auto-select-first
-      class="rounded"
+      class="rounded searchContainer"
       clearable
       :custom-filter="filter"
       density="compact"
@@ -18,9 +18,8 @@
       return-object
       single-line
       variant="outlined"
-      @blur="handleInfoVisibility(false)"
-      @click:clear="clear"
       @focus="handleInfoVisibility(true)"
+      @click:clear="clear"
     >
       <template #item="{ props, item }">
         <v-list-item
@@ -30,8 +29,9 @@
         ></v-list-item>
       </template>
     </v-autocomplete>
-    <v-expand-transition>
-      <v-card v-show="showInfo">
+
+    <v-menu v-model="showInfo" :target="autocompleteRef">
+      <v-card>
         <v-card-title>
           <v-icon :icon="mdiInformationOutline" size="small" />
           Ortssuche
@@ -62,8 +62,7 @@
           </v-timeline>
         </v-card-text>
       </v-card>
-    </v-expand-transition>
-  </v-sheet>
+    </v-menu>
 </template>
 
 <script setup>
@@ -94,6 +93,7 @@ import {
  * @property {string} id
  */
 
+const autocompleteRef = ref(null);
 const { result } = usePlaceSearch();
 const emit = defineEmits(['result']);
 
