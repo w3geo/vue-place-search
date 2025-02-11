@@ -30,12 +30,11 @@
     }
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "npm run watch & vite -c example/vite.config.mjs",
     "build": "vue-tsc -b && vite build",
     "preview": "vite preview",
     "prepublishOnly": "npm run build",
     "watch": "nodemon --watch src -e js,json,mjs,vue --exec 'npm run build'",
-    "dev:example": "npm run watch & vite -c example/vite.config.mjs",
     "test": "npm run lint && npm run typecheck",
     "lint": "eslint .",
     "typecheck": "vue-tsc --noEmit"
