@@ -14,7 +14,7 @@
     :items="items"
     label="Ort, Adresse, Flurname,..."
     :loading="!!abortController"
-    min-width="280px"
+    min-width="280"
     :prepend-inner-icon="mdiMagnify"
     return-object
     single-line
