@@ -7,7 +7,7 @@ import Stroke from 'ol/style/Stroke.js';
 import Style from 'ol/style/Style.js';
 import { onUnmounted, shallowRef, watch } from 'vue';
 
-/** @type {import('vue').ShallowRef<import('../components/PlaceSearch.vue').PlaceItem | null>} */
+/** @type {import('vue').ShallowRef<import('../index.js').PlaceItem | null>} */
 const result = shallowRef(null);
 
 const geojsonFormat = new GeoJSON();
@@ -29,7 +29,7 @@ const resultLayer = new VectorLayer({
 /**
  * @param {import('ol/Map.js').default} [map] OpenLayers map instance.
  * If provided, the map's view will be centered on the search result geometry.
- * @returns {{result: import('vue').ShallowRef<import('../components/PlaceSearch.vue').PlaceItem | null>}}
+ * @returns {{result: import('vue').ShallowRef<import('../index.js').PlaceItem | null>}}
  */
 export function usePlaceSearch(map) {
   if (map) {

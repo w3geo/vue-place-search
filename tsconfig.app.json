@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "allowJs": true,
     "checkJs": true,
     "composite": true,
@@ -24,7 +25,13 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    /* Peer dependencies */
+    "paths": {
+      "ol": ["node_modules/ol"],
+      "ol/*" : ["node_modules/ol/*"],
+    }
   },
   "include": ["src/**/*.js", "src/**/*.tsx", "src/**/*.vue"]
 }
