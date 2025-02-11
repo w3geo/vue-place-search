@@ -218,6 +218,6 @@ function handleInfoVisibility(visible) {
 
 <style scoped>
 .searchContainer {
-  position: relative;
+  min-width: 280px;
 }
 </style>
