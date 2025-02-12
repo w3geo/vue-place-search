@@ -24,9 +24,6 @@
     ".": {
       "types": "./dist/src/index.d.ts",
       "import": "./dist/vue-place-search.js"
-    },
-    "./dist/style.css": {
-      "import": "./dist/style.css"
     }
   },
   "scripts": {
