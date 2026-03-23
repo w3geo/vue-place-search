@@ -101,7 +101,7 @@ const helpItems = [
     example: 'Johannes Filzer Straße 5 Salzburg',
   },
   {
-    name: 'KG-Nummer + Grundstücksnummer',
+    name: 'KG-Nr. + Grundstück-Nr./Einlagezahl',
     example: '49203-4',
   },
   {
@@ -154,7 +154,7 @@ const getPlaces = async value => {
     const { signal } = abortController.value;
     try {
       const response = await fetch(
-        `https://kataster.bev.gv.at/api/search/?layers=pg-adr-gn-rn-gst-kg-bl&term=${encodeURIComponent(value)}`,
+        `https://kataster.bev.gv.at/api/search/?layers=pg-adr-gn-rn-gst-kg-bl-ez&term=${encodeURIComponent(value)}`,
         { signal },
       );
       const { data } = await response.json();
