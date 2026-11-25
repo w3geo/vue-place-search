@@ -4,6 +4,7 @@
     v-model="model"
     v-model:search="search"
     auto-select-first
+    autocomplete="off"
     class="rounded"
     clearable
     :custom-filter="filter"
